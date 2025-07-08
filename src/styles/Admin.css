@@ -1,0 +1,50 @@
+.admin-login-form {
+  max-width: 400px;
+  margin: 5rem auto;
+  padding: 2rem;
+  border: 2px solid #0077ffa6;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.admin-login-form label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #f702a9e6;
+}
+
+.admin-login-form input[type="password"] {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.admin-login-form input[type="password"]:focus {
+  border-color: #0077ffa6;;
+  outline: none;
+}
+
+.admin-login-form button {
+  width: 100%;
+  padding: 0.7rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  background-color: #0077ffa6;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.admin-login-form button:hover {
+  background-color: #0056b3;
+}

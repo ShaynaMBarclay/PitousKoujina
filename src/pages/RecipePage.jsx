@@ -3,7 +3,7 @@ import { collection, addDoc, onSnapshot, doc, deleteDoc, updateDoc } from "fireb
 import { db } from "../Firebase";
 import RecipeForm from '../components/RecipeForm';
 
-function RecipePage() {
+function RecipePage({ isAdmin }) {
   const [recipes, setRecipes] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingRecipe, setEditingRecipe] = useState(null);
@@ -29,7 +29,7 @@ function RecipePage() {
 
   const handleAddRecipe = async (newRecipe) => {
     try {
-      console.log("🧪 Recipe passed to handler: ", newRecipe);
+      if (!isAdmin) return;
 
       if (newRecipe.id) {
         
@@ -53,6 +53,7 @@ function RecipePage() {
 
   const handleDeleteRecipe = async (idToDelete) => {
     try {
+      if (!isAdmin) return;
       console.log("🗑️ Deleting recipe with ID:", idToDelete);
       const docRef = doc(db, "recipes", idToDelete);
       await deleteDoc(docRef);
@@ -62,21 +63,26 @@ function RecipePage() {
   };
 
   const handleEditRecipe = (recipe) => {
+    if (!isAdmin) return; 
     console.log("✏️ Editing recipe:", recipe);
     setEditingRecipe(recipe);
     setShowForm(true);
   };
 
-  return (
+    return (
     <div className="recipes-page">
       <h1 className="recipes-heading">Pitou's Koujina</h1>
       <h2 className="recipes-smallheading">مرحبا بيك في كوجينتي</h2>
 
-      <button className="toggle-form-button" onClick={toggleForm}>
-        {showForm ? 'Close Form' : '+ Add Recipe'}
-      </button>
+      {/* Show Add Recipe button only if isAdmin */}
+      {isAdmin && (
+        <button className="toggle-form-button" onClick={toggleForm}>
+          {showForm ? 'Close Form' : '+ Add Recipe'}
+        </button>
+      )}
 
-      {showForm && (
+      {/* Show the form only if isAdmin and showForm is true */}
+      {isAdmin && showForm && (
         <RecipeForm
           onAddRecipe={handleAddRecipe}
           editingRecipe={editingRecipe}
@@ -92,18 +98,24 @@ function RecipePage() {
               className="recipe-image"
               onClick={() => alert(`Show popup for: ${recipe.ingredients}`)} // placeholder
             />
-            <button
-              className="edit-button"
-              onClick={() => handleEditRecipe(recipe)}
-            >
-              Edit
-            </button>
-            <button
-              className="delete-button"
-              onClick={() => handleDeleteRecipe(recipe.id)}
-            >
-              Delete
-            </button>
+
+            {/* Show Edit/Delete buttons only if isAdmin */}
+            {isAdmin && (
+              <>
+                <button
+                  className="edit-button"
+                  onClick={() => handleEditRecipe(recipe)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="delete-button"
+                  onClick={() => handleDeleteRecipe(recipe.id)}
+                >
+                  Delete
+                </button>
+              </>
+            )}
           </div>
         ))}
       </div>
@@ -112,3 +124,4 @@ function RecipePage() {
 }
 
 export default RecipePage;
+
