@@ -1,29 +1,61 @@
-import { useState } from 'react';
+import { useState, useEffect } from "react";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { storage } from "../Firebase";
 
-
-function RecipeForm({ onAddRecipe }) {
+function RecipeForm({ onAddRecipe, editingRecipe }) {
   const [ingredients, setIngredients] = useState('');
   const [instructions, setInstructions] = useState('');
   const [image, setImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState('');
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    if (editingRecipe) {
+      setIngredients(editingRecipe.ingredients || '');
+      setInstructions(editingRecipe.instructions || '');
+      setImageUrl(editingRecipe.image || '');
+      setImage(null);
+    } else {
+      setIngredients('');
+      setInstructions('');
+      setImage(null);
+      setImageUrl('');
+    }
+  }, [editingRecipe]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!image) return alert("Please upload an image");
+    let finalImageUrl = imageUrl;
 
-    const newRecipe = {
-      id: Date.now(),
-      ingredients,
-      instructions,
-      image: URL.createObjectURL(image),
-    };
+    try {
+      if (image) {
+        const imageRef = ref(storage, `recipes/${image.name}-${Date.now()}`);
+        await uploadBytes(imageRef, image);
+        finalImageUrl = await getDownloadURL(imageRef);
+      }
 
-    onAddRecipe(newRecipe);
+      if (!finalImageUrl) {
+        return alert("Please upload an image");
+      }
 
-    // Reset form
-    setIngredients('');
-    setInstructions('');
-    setImage(null);
+      const newRecipe = {
+        ingredients,
+        instructions,
+        image: finalImageUrl,
+        ...(editingRecipe?.id && { id: editingRecipe.id }),
+      };
+
+      console.log("Submitting recipe:", newRecipe);
+
+      onAddRecipe(newRecipe);
+
+      setIngredients('');
+      setInstructions('');
+      setImage(null);
+      setImageUrl('');
+    } catch (error) {
+      console.error("Upload failed:", error);
+    }
   };
 
   return (
@@ -52,11 +84,32 @@ function RecipeForm({ onAddRecipe }) {
           type="file"
           accept="image/*"
           onChange={(e) => setImage(e.target.files[0])}
-          required
+          required={!editingRecipe || !imageUrl} 
         />
       </label>
 
-      <button type="submit">Add Recipe</button>
+      {image && (
+        <div>
+          <p>New image selected:</p>
+          <img
+            src={URL.createObjectURL(image)}
+            alt="Preview"
+            style={{ maxWidth: '200px', marginTop: '10px' }}
+          />
+        </div>
+      )}
+      {!image && imageUrl && (
+        <div>
+          <p>Current image:</p>
+          <img
+            src={imageUrl}
+            alt="Current"
+            style={{ maxWidth: '200px', marginTop: '10px' }}
+          />
+        </div>
+      )}
+
+      <button type="submit">{editingRecipe ? "Update Recipe" : "Add Recipe"}</button>
     </form>
   );
 }
