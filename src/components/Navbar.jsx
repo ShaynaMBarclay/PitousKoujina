@@ -1,9 +1,18 @@
-import React from 'react'
+import { Link } from 'react-router-dom';
+import { FaUtensils } from 'react-icons/fa';
+import { FiGlobe } from 'react-icons/fi';
 
-const Navbar = () => {
+function Navbar() {
   return (
-    <div>Navbar</div>
-  )
+    <nav className="navbar">
+      <Link to="/" className="nav-link">
+        <FaUtensils className="nav-icon" />
+      </Link>
+      <Link to="/reviews" className="nav-link">
+         <FiGlobe className="nav-icon" />
+      </Link>
+    </nav>
+  );
 }
 
-export default Navbar
+export default Navbar;

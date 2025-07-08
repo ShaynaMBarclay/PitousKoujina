@@ -1,0 +1,23 @@
+
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 2.6rem;
+  padding: 8px;
+  background-color: #f9fbff; 
+  border-bottom: 2.3px solid #0077ffa6; 
+  font-weight: 500;
+  
+}
+
+.nav-icon {
+  font-size: 1.3rem;
+  color: #f702a9e6;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.nav-icon:hover {
+  color: #990269;
+}
