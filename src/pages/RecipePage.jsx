@@ -20,6 +20,7 @@ function RecipePage() {
   return (
     <div className="recipes-page">
       <h1 className="recipes-heading">Pitou's Koujina</h1>
+      <h2 className="recipes-smallheading">مرحبا بيك في كوجينتي</h2>
 
       <button className="toggle-form-button" onClick={toggleForm}>
         {showForm ? 'Close Form' : '+ Add Recipe'}
