@@ -1,7 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
-import RecipesPage from './pages/RecipePage';
+import RecipePage from './pages/RecipePage';
 import ReviewsPage from './pages/ReviewsPage';
 import Navbar from './components/Navbar';
+
 import "./styles/app.css";
 
 function App() {
@@ -9,7 +10,7 @@ function App() {
     <>
       <Navbar />
       <Routes>
-        <Route path="/" element={<RecipesPage />} />
+        <Route path="/" element={<RecipePage />} />
         <Route path="/reviews" element={<ReviewsPage />} />
       </Routes>
     </>
