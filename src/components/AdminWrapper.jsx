@@ -1,7 +1,7 @@
 import { useState } from "react";
 import RecipePage from "../pages/RecipePage"; 
 
-const ADMIN_PASSCODE = "ILoveMyWife";
+const ADMIN_PASSCODE = import.meta.env.VITE_ADMIN_PASSCODE
 
 function AdminWrapper() {
   const [passcode, setPasscode] = useState("");
