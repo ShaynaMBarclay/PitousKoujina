@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import { collection, addDoc, onSnapshot, doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { db } from "../Firebase";
 import RecipeForm from '../components/RecipeForm';
@@ -7,6 +8,7 @@ function RecipePage({ isAdmin }) {
   const [recipes, setRecipes] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingRecipe, setEditingRecipe] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
   const unsubscribe = onSnapshot(collection(db, "recipes"), (snapshot) => {
@@ -74,14 +76,12 @@ function RecipePage({ isAdmin }) {
       <h1 className="recipes-heading">Pitou's Koujina</h1>
       <h2 className="recipes-smallheading">مرحبا بيك في كوجينتي</h2>
 
-      {/* Show Add Recipe button only if isAdmin */}
       {isAdmin && (
         <button className="toggle-form-button" onClick={toggleForm}>
           {showForm ? 'Close Form' : '+ Add Recipe'}
         </button>
       )}
 
-      {/* Show the form only if isAdmin and showForm is true */}
       {isAdmin && showForm && (
         <RecipeForm
           onAddRecipe={handleAddRecipe}
@@ -92,14 +92,14 @@ function RecipePage({ isAdmin }) {
       <div className="recipe-gallery">
         {recipes.map((recipe) => (
           <div key={recipe.id} className="recipe-card">
-            <img
+              <img
               src={recipe.image}
               alt="Recipe"
               className="recipe-image"
-              onClick={() => alert(`Show popup for: ${recipe.ingredients}`)} // placeholder
+              onClick={() => navigate(`/recipe/${recipe.id}`)}
             />
 
-            {/* Show Edit/Delete buttons only if isAdmin */}
+            
             {isAdmin && (
               <>
                 <button

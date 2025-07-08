@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import ReviewsPage from './pages/ReviewsPage';
 import RecipePage from './pages/RecipePage';
+import RecipeDetailPage from './pages/RecipeDetailPage';
 import Navbar from './components/Navbar';
 import AdminWrapper from "./components/AdminWrapper";
 
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<RecipePage isAdmin={false} />} />
         <Route path="/reviews" element={<ReviewsPage />} />
         <Route path="/admin" element={<AdminWrapper />} />
+        <Route path="/recipe/:id" element={<RecipeDetailPage />} />
       </Routes>
     </>
   );

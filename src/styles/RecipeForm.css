@@ -140,3 +140,35 @@
 .toggle-form-button:hover {
   background-color: #005fa3;
 }
+
+.recipe-title-input,
+.recipe-ingredients-textarea,
+.recipe-instructions-textarea,
+.recipe-image-input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.recipe-ingredients-textarea,
+.recipe-instructions-textarea {
+  min-height: 80px;
+}
+
+.image-preview-container {
+  margin-bottom: 1rem;
+}
+
+.image-preview {
+  max-width: 200px;
+  border-radius: 8px;
+  display: block;
+  margin-top: 0.5rem;
+}

@@ -3,6 +3,7 @@
 @import "./Navbar.css";
 @import "./RecipeForm.css";
 @import "./Admin.css";
+@import "./RecipeDetailPage.css";
 
 * {
   margin: 0;

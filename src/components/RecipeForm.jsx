@@ -3,6 +3,7 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../Firebase";
 
 function RecipeForm({ onAddRecipe, editingRecipe }) {
+  const [title, setTitle] = useState("");
   const [ingredients, setIngredients] = useState('');
   const [instructions, setInstructions] = useState('');
   const [image, setImage] = useState(null);
@@ -10,11 +11,13 @@ function RecipeForm({ onAddRecipe, editingRecipe }) {
 
   useEffect(() => {
     if (editingRecipe) {
+      setTitle(editingRecipe.title || "");
       setIngredients(editingRecipe.ingredients || '');
       setInstructions(editingRecipe.instructions || '');
       setImageUrl(editingRecipe.image || '');
       setImage(null);
     } else {
+      setTitle("");
       setIngredients('');
       setInstructions('');
       setImage(null);
@@ -38,7 +41,12 @@ function RecipeForm({ onAddRecipe, editingRecipe }) {
         return alert("Please upload an image");
       }
 
+      if (!title.trim()) {
+        return alert("Please enter a title");
+      }
+
       const newRecipe = {
+        title,
         ingredients,
         instructions,
         image: finalImageUrl,
@@ -49,6 +57,7 @@ function RecipeForm({ onAddRecipe, editingRecipe }) {
 
       onAddRecipe(newRecipe);
 
+      setTitle("");
       setIngredients('');
       setInstructions('');
       setImage(null);
@@ -60,6 +69,18 @@ function RecipeForm({ onAddRecipe, editingRecipe }) {
 
   return (
     <form className="recipe-form" onSubmit={handleSubmit}>
+
+         <label>
+        Title:
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+          className="recipe-title-input"
+        />
+      </label>
+      
       <label>
         Ingredients:
         <textarea
