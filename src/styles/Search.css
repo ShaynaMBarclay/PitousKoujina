@@ -22,3 +22,35 @@
   cursor: pointer;
   font-weight: bold;
 }
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #f702a9e6; /* matches your existing accent color */
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-family: "My Soul", cursive;
+  letter-spacing: 0.05em;
+  border-bottom: 3px solid #f702a9e6;
+  padding-bottom: 0.3rem;
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  user-select: none;
+}
+
+.search-results-page {
+  padding: 1rem 1rem 3rem;
+  max-width: 900px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.review-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+}

@@ -4,7 +4,8 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "../Firebase";
 
 function SearchResultsPage() {
-  const [results, setResults] = useState([]);
+  const [recipeResults, setRecipeResults] = useState([]);
+  const [reviewResults, setReviewResults] = useState([]);
   const [loading, setLoading] = useState(true);
   const location = useLocation();
   const query = new URLSearchParams(location.search).get("query")?.toLowerCase() || "";
@@ -15,23 +16,24 @@ function SearchResultsPage() {
       const recipeSnap = await getDocs(collection(db, "recipes"));
       const reviewSnap = await getDocs(collection(db, "reviews"));
 
-      const recipeResults = recipeSnap.docs
-  .map(doc => ({ ...doc.data(), id: doc.id, type: "recipe" }))
-  .filter(item =>
-    item.title?.toLowerCase().includes(query) ||
-    item.ingredients?.toLowerCase().includes(query) ||
-    item.instructions?.toLowerCase().includes(query)
-  );
+      const recipes = recipeSnap.docs
+        .map(doc => ({ ...doc.data(), id: doc.id }))
+        .filter(item =>
+          item.title?.toLowerCase().includes(query) ||
+          item.ingredients?.toLowerCase().includes(query) ||
+          item.instructions?.toLowerCase().includes(query)
+        );
 
-      const reviewResults = reviewSnap.docs
-  .map(doc => ({ ...doc.data(), id: doc.id, type: "review" }))
-  .filter(item =>
-    item.restaurant?.toLowerCase().includes(query) ||
-    item.review?.toLowerCase().includes(query) ||
-    item.country?.toLowerCase().includes(query)
-  );
+      const reviews = reviewSnap.docs
+        .map(doc => ({ ...doc.data(), id: doc.id }))
+        .filter(item =>
+          item.restaurant?.toLowerCase().includes(query) ||
+          item.review?.toLowerCase().includes(query) ||
+          item.country?.toLowerCase().includes(query)
+        );
 
-      setResults([...recipeResults, ...reviewResults]);
+      setRecipeResults(recipes);
+      setReviewResults(reviews);
       setLoading(false);
     }
 
@@ -40,34 +42,60 @@ function SearchResultsPage() {
 
   if (loading) return <p className="loading-text">Searching...</p>;
 
-  if (!results.length) {
+  if (recipeResults.length === 0 && reviewResults.length === 0) {
     return <p className="loading-text">No results found for "{query}".</p>;
   }
 
   return (
     <div className="search-results-page">
       <h2 className="reviews-heading">Search Results for "{query}"</h2>
-      <div className="review-gallery">
-        {results.map((item) => (
-          <Link
-  to={item.type === "recipe" ? `/recipe/${item.id}` : `/reviews/${item.id}`}
-  className="review-link"
-  key={item.id}
->
-  <div className="review-card">
-    <h3 className="review-title">
-      {item.type === "recipe" ? item.title : item.restaurant}
-    </h3>
-    {item.image && (
-      <img src={item.image} alt="" className="review-image" />
-    )}
-    {item.type === "review" && (
-      <div className="review-rating">{'⭐'.repeat(item.rating)}</div>
-    )}
-  </div>
-</Link>
-        ))}
-      </div>
+
+      {/* Recipes Section */}
+      {recipeResults.length > 0 && (
+        <>
+          <h3 className="section-title">Recipes</h3>
+          <div className="review-gallery">
+            {recipeResults.map(item => (
+              <Link
+                to={`/recipe/${item.id}`}
+                className="review-link"
+                key={item.id}
+              >
+                <div className="review-card">
+                  <h3 className="review-title">{item.title}</h3>
+                  {item.image && (
+                    <img src={item.image} alt={item.title} className="review-image" />
+                  )}
+                </div>
+              </Link>
+            ))}
+          </div>
+        </>
+      )}
+
+      {/* Reviews Section */}
+      {reviewResults.length > 0 && (
+        <>
+          <h3 className="section-title">Reviews</h3>
+          <div className="review-gallery">
+            {reviewResults.map(item => (
+              <Link
+                to={`/reviews/${item.id}`}  
+                className="review-link"
+                key={item.id}
+              >
+                <div className="review-card">
+                  <h3 className="review-title">{item.restaurant}</h3>
+                  {item.image && (
+                    <img src={item.image} alt={item.restaurant} className="review-image" />
+                  )}
+                  <div className="review-rating">{'⭐'.repeat(item.rating)}</div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }
