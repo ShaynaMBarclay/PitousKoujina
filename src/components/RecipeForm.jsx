@@ -8,6 +8,8 @@ function RecipeForm({ onAddRecipe, editingRecipe }) {
   const [instructions, setInstructions] = useState('');
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState('');
+  const [country, setCountry] = useState('');
+  const [mealType, setMealType] = useState('');
 
   useEffect(() => {
     if (editingRecipe) {
@@ -15,6 +17,8 @@ function RecipeForm({ onAddRecipe, editingRecipe }) {
       setIngredients(editingRecipe.ingredients || '');
       setInstructions(editingRecipe.instructions || '');
       setImageUrl(editingRecipe.image || '');
+      setCountry(editingRecipe.country || '');
+      setMealType(editingRecipe.mealType || '');
       setImage(null);
     } else {
       setTitle("");
@@ -22,6 +26,8 @@ function RecipeForm({ onAddRecipe, editingRecipe }) {
       setInstructions('');
       setImage(null);
       setImageUrl('');
+      setCountry('');
+      setMealType('');
     }
   }, [editingRecipe]);
 
@@ -50,10 +56,10 @@ function RecipeForm({ onAddRecipe, editingRecipe }) {
         ingredients,
         instructions,
         image: finalImageUrl,
+        country,
+        mealType,
         ...(editingRecipe?.id && { id: editingRecipe.id }),
       };
-
-      console.log("Submitting recipe:", newRecipe);
 
       onAddRecipe(newRecipe);
 
@@ -62,6 +68,8 @@ function RecipeForm({ onAddRecipe, editingRecipe }) {
       setInstructions('');
       setImage(null);
       setImageUrl('');
+      setCountry('');
+      setMealType('');
     } catch (error) {
       console.error("Upload failed:", error);
     }
@@ -69,8 +77,7 @@ function RecipeForm({ onAddRecipe, editingRecipe }) {
 
   return (
     <form className="recipe-form" onSubmit={handleSubmit}>
-
-         <label>
+      <label>
         Title:
         <input
           type="text"
@@ -80,7 +87,7 @@ function RecipeForm({ onAddRecipe, editingRecipe }) {
           className="recipe-title-input"
         />
       </label>
-      
+
       <label>
         Ingredients:
         <textarea
@@ -99,13 +106,37 @@ function RecipeForm({ onAddRecipe, editingRecipe }) {
         />
       </label>
 
+      <label>
+        Country of Origin:
+        <input
+          type="text"
+          value={country}
+          onChange={(e) => setCountry(e.target.value)}
+          placeholder="e.g., Italy"
+        />
+      </label>
+
+      <label>
+        Meal Type:
+        <select value={mealType} onChange={(e) => setMealType(e.target.value)}>
+          <option value="">Select meal type</option>
+          <option value="Breakfast">Breakfast</option>
+          <option value="Brunch">Brunch</option>
+          <option value="Lunch">Lunch</option>
+          <option value="Dinner">Dinner</option>
+          <option value="Dessert">Dessert</option>
+          <option value="Snack">Snack</option>
+          <option value="Other">Other</option>
+        </select>
+      </label>
+
       <label className="upload-label">
         Upload Image:
         <input
           type="file"
           accept="image/*"
           onChange={(e) => setImage(e.target.files[0])}
-          required={!editingRecipe || !imageUrl} 
+          required={!editingRecipe || !imageUrl}
         />
       </label>
 

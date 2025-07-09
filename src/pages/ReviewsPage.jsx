@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { db } from "../Firebase";
 import {
   collection,
@@ -6,9 +7,8 @@ import {
   onSnapshot,
   deleteDoc,
   doc,
-  updateDoc 
+  updateDoc,
 } from "firebase/firestore";
-import { Link } from "react-router-dom";
 import ReviewForm from "../components/ReviewForm";
 
 function ReviewsPage({ isAdmin = false }) {
@@ -23,21 +23,20 @@ function ReviewsPage({ isAdmin = false }) {
     return () => unsubscribe();
   }, []);
 
- const handleAddReview = async (newReview) => {
-  try {
-    if (newReview.id) {
-      const docRef = doc(db, "reviews", newReview.id);
-      const { id, ...rest } = newReview;
-      await updateDoc(docRef, rest);
-      setEditingReview(null); 
-    } else {
-      await addDoc(collection(db, "reviews"), newReview);
+  const handleAddReview = async (newReview) => {
+    try {
+      if (newReview.id) {
+        const docRef = doc(db, "reviews", newReview.id);
+        await updateDoc(docRef, newReview);
+      } else {
+        await addDoc(collection(db, "reviews"), newReview);
+      }
+      setShowForm(false);
+      setEditingReview(null);
+    } catch (err) {
+      console.error("Error adding/updating review:", err);
     }
-    setShowForm(false); 
-  } catch (err) {
-    console.error("Error adding/updating review:", err);
-  }
-};
+  };
 
   const handleDelete = async (id) => {
     try {
@@ -47,16 +46,14 @@ function ReviewsPage({ isAdmin = false }) {
     }
   };
 
-  const handleEditReview = (review) => {
+  const handleEdit = (review) => {
     setEditingReview(review);
     setShowForm(true);
   };
 
   const toggleForm = () => {
-    if (showForm) {
-      setEditingReview(null);
-    }
     setShowForm((prev) => !prev);
+    if (showForm) setEditingReview(null); 
   };
 
   return (
@@ -65,25 +62,28 @@ function ReviewsPage({ isAdmin = false }) {
       <p className="reviews-subheading">Where we've eaten around the world ✈️</p>
 
       {isAdmin && (
-  <>
-    <button className="toggle-form-button" onClick={toggleForm}>
-      {showForm ? "Close Form" : editingReview ? "Cancel Edit" : "+ Add Review"}
-    </button>
+        <>
+          <button className="toggle-form-button" onClick={toggleForm}>
+            {showForm ? "Close Form" : editingReview ? "Edit Review" : "+ Add Review"}
+          </button>
 
-    {showForm && (
-      <ReviewForm
-        onAddReview={handleAddReview}
-        editingReview={editingReview}
-        setEditingReview={setEditingReview}
-      />
-    )}
-  </>
-)}
+          {showForm && (
+            <ReviewForm onAddReview={handleAddReview} editingReview={editingReview} />
+          )}
+        </>
+      )}
 
       <div className="review-gallery">
         {reviews.map((r) => (
-          <div key={r.id} className="review-card">
-            <Link to={`/reviews/${r.id}`} className="review-link">
+          <Link
+            to={`/reviews/${r.id}`}
+            className="review-link"
+            key={r.id}
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <div className="review-card">
+              <h3 className="review-title">{r.restaurant}</h3>
+              <div className="review-rating">{'⭐'.repeat(r.rating)}</div>
               {r.image && (
                 <img
                   src={r.image}
@@ -91,30 +91,31 @@ function ReviewsPage({ isAdmin = false }) {
                   className="review-image"
                 />
               )}
-              <h3 className="review-title">{r.restaurant}</h3>
-              <div className="review-rating">{'⭐'.repeat(r.rating)}</div>
-            </Link>
 
-            {isAdmin && (
-              <div className="review-buttons">
-               <button
-               className="edit-button"
-               onClick={() => {
-               setEditingReview(r);
-               setShowForm(true);
-               }}
-               >
-                Edit
-              </button>
-                <button
-                  className="delete-button"
-                  onClick={() => handleDelete(r.id)}
-                >
-                  Delete
-                </button>
-              </div>
-            )}
-          </div>
+              {isAdmin && (
+                <div>
+                  <button
+                    className="edit-button"
+                    onClick={(e) => {
+                      e.preventDefault(); 
+                      handleEdit(r);
+                    }}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="delete-button"
+                    onClick={(e) => {
+                      e.preventDefault(); 
+                      handleDelete(r.id);
+                    }}
+                  >
+                    Delete
+                  </button>
+                </div>
+              )}
+            </div>
+          </Link>
         ))}
       </div>
     </div>

@@ -45,6 +45,20 @@
   background-color: #990269;
 }
 
+.recipe-country-input,
+.recipe-mealtype-select {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+
 /* Recipe Page */
 
 .recipes-page {

@@ -21,7 +21,9 @@ function SearchResultsPage() {
         .filter(item =>
           item.title?.toLowerCase().includes(query) ||
           item.ingredients?.toLowerCase().includes(query) ||
-          item.instructions?.toLowerCase().includes(query)
+          item.instructions?.toLowerCase().includes(query) ||
+          item.country?.toLowerCase().includes(query) ||        
+          item.mealType?.toLowerCase().includes(query) 
         );
 
       const reviews = reviewSnap.docs
@@ -29,7 +31,9 @@ function SearchResultsPage() {
         .filter(item =>
           item.restaurant?.toLowerCase().includes(query) ||
           item.review?.toLowerCase().includes(query) ||
-          item.country?.toLowerCase().includes(query)
+          item.country?.toLowerCase().includes(query) ||        
+        item.dishCountry?.toLowerCase().includes(query) ||     
+        item.originCountry?.toLowerCase().includes(query) 
         );
 
       setRecipeResults(recipes);

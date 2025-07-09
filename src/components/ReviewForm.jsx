@@ -2,29 +2,32 @@ import { useState, useEffect } from "react";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../Firebase";
 
-function ReviewForm({ onAddReview, editingReview, setEditingReview, onCancel }) {
+function ReviewForm({ onAddReview, editingReview }) {
   const [restaurant, setRestaurant] = useState("");
-  const [country, setCountry] = useState("");
-  const [rating, setRating] = useState(0);
   const [review, setReview] = useState("");
+  const [rating, setRating] = useState(0);
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
+  const [dishCountry, setDishCountry] = useState("");
+  const [originCountry, setOriginCountry] = useState("");
 
   useEffect(() => {
     if (editingReview) {
       setRestaurant(editingReview.restaurant || "");
-      setCountry(editingReview.country || "");
-      setRating(editingReview.rating || 0);
       setReview(editingReview.review || "");
+      setRating(editingReview.rating || 0);
       setImageUrl(editingReview.image || "");
+      setDishCountry(editingReview.dishCountry || "");
+      setOriginCountry(editingReview.originCountry || "");
       setImage(null);
     } else {
       setRestaurant("");
-      setCountry("");
-      setRating(0);
       setReview("");
+      setRating(0);
       setImage(null);
       setImageUrl("");
+      setDishCountry("");
+      setOriginCountry("");
     }
   }, [editingReview]);
 
@@ -40,76 +43,50 @@ function ReviewForm({ onAddReview, editingReview, setEditingReview, onCancel }) 
         finalImageUrl = await getDownloadURL(imageRef);
       }
 
-      if (!restaurant || !country || !rating || !review) {
-        alert("Please fill in all required fields.");
-        return;
+      if (!restaurant.trim()) {
+        return alert("Please enter a restaurant name");
+      }
+
+      if (rating < 1 || rating > 5) {
+        return alert("Please provide a rating between 1 and 5");
       }
 
       const newReview = {
         restaurant,
-        country,
-        rating,
         review,
-        image: finalImageUrl || "",
+        rating,
+        image: finalImageUrl,
+        dishCountry,
+        originCountry,
         ...(editingReview?.id && { id: editingReview.id }),
       };
 
       onAddReview(newReview);
 
-      if (!editingReview) {
-        setRestaurant("");
-        setCountry("");
-        setRating(0);
-        setReview("");
-        setImage(null);
-        setImageUrl("");
-      }
+      // Clear form
+      setRestaurant("");
+      setReview("");
+      setRating(0);
+      setImage(null);
+      setImageUrl("");
+      setDishCountry("");
+      setOriginCountry("");
     } catch (error) {
       console.error("Upload failed:", error);
     }
   };
 
   return (
-    <form className="recipe-form" onSubmit={handleSubmit}>
+    <form className="review-form" onSubmit={handleSubmit}>
       <label>
-        Restaurant Name:
+        Restaurant:
         <input
           type="text"
           value={restaurant}
           onChange={(e) => setRestaurant(e.target.value)}
           required
-          className="recipe-title-input"
+          className="review-restaurant-input"
         />
-      </label>
-
-      <label>
-        Country:
-        <input
-          type="text"
-          value={country}
-          onChange={(e) => setCountry(e.target.value)}
-          required
-          className="recipe-title-input"
-        />
-      </label>
-
-      <label>
-        Rating:
-        <select
-          value={rating}
-          onChange={(e) => setRating(Number(e.target.value))}
-          required
-          className="recipe-title-input"
-        >
-          <option value={0} disabled>
-            Select rating
-          </option>
-          {[1, 2, 3, 4, 5].map((star) => (
-            <option key={star} value={star}>
-              {star} Star{star > 1 ? "s" : ""}
-            </option>
-          ))}
-        </select>
       </label>
 
       <label>
@@ -117,8 +94,40 @@ function ReviewForm({ onAddReview, editingReview, setEditingReview, onCancel }) 
         <textarea
           value={review}
           onChange={(e) => setReview(e.target.value)}
+          rows={4}
+        />
+      </label>
+
+      <label>
+        Rating (1-5):
+        <input
+          type="number"
+          min="1"
+          max="5"
+          value={rating}
+          onChange={(e) => setRating(Number(e.target.value))}
           required
-          className="recipe-ingredients-textarea"
+          className="review-rating-input"
+        />
+      </label>
+
+      <label>
+        Country where eaten:
+        <input
+          type="text"
+          value={dishCountry}
+          onChange={(e) => setDishCountry(e.target.value)}
+          placeholder="Where did you eat this dish?"
+        />
+      </label>
+
+      <label>
+        Country of origin:
+        <input
+          type="text"
+          value={originCountry}
+          onChange={(e) => setOriginCountry(e.target.value)}
+          placeholder="Where is this dish from?"
         />
       </label>
 
@@ -133,33 +142,28 @@ function ReviewForm({ onAddReview, editingReview, setEditingReview, onCancel }) 
       </label>
 
       {image && (
-        <div className="image-preview-container">
+        <div>
           <p>New image selected:</p>
           <img
             src={URL.createObjectURL(image)}
             alt="Preview"
-            className="image-preview"
+            style={{ maxWidth: "200px", marginTop: "10px" }}
           />
         </div>
       )}
 
       {!image && imageUrl && (
-        <div className="image-preview-container">
+        <div>
           <p>Current image:</p>
-          <img src={imageUrl} alt="Current" className="image-preview" />
+          <img
+            src={imageUrl}
+            alt="Current"
+            style={{ maxWidth: "200px", marginTop: "10px" }}
+          />
         </div>
       )}
 
-      <div style={{ display: "flex", gap: "10px" }}>
-        <button type="submit">
-          {editingReview ? "Update Review" : "Add Review"}
-        </button>
-        {editingReview && (
-          <button type="button" onClick={onCancel}>
-            Cancel
-          </button>
-        )}
-      </div>
+      <button type="submit">{editingReview ? "Update Review" : "Add Review"}</button>
     </form>
   );
 }

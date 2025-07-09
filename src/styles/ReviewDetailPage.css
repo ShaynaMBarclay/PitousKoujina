@@ -14,6 +14,35 @@
   letter-spacing: 0.1em;
 }
 
+/* Container to hold the two country details side by side */
+.review-details {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  color: #0077ffa6;
+  font-weight: 600;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+}
+
+.review-details p {
+  margin: 0;
+  padding: 0.2rem 0.5rem;
+  border: 1.5px solid #0077ffa6;
+  border-radius: 8px;
+  background-color: #d3e0fbb6;
+  min-width: 140px;
+}
+
+.review-rating {
+  font-size: 1.5rem;
+  color: #ffc107;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
 .review-detail-image {
   max-height: 300px;
   object-fit: contain;
@@ -25,20 +54,6 @@
   margin-right: auto;
 }
 
-.review-image-container {
-  text-align: center;
-}
-
-.review-section {
-  margin-bottom: 2rem;
-}
-
-.section-title {
-  font-size: 1.25rem;
-  margin-bottom: 0.5rem;
-  color: #f702a9e6;
-}
-
 .review-text {
   white-space: pre-wrap;
   line-height: 1.6;
@@ -47,14 +62,8 @@
   border-radius: 8px;
   font-size: 1rem;
   color: #333;
-}
-
-.review-meta {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #0077ffa6;
-  margin-bottom: 1rem;
-  text-align: center;
+  margin-bottom: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .back-link {
@@ -63,14 +72,16 @@
   color: #0077ffa6;
   font-weight: 600;
   transition: color 0.3s ease;
-  margin-top: 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
 .back-link:hover {
   color: #f702a9e6;
 }
 
-.loading-text, .error-text {
+.loading-text,
+.error-text {
   text-align: center;
   font-size: 1.2rem;
   color: #f702a9e6;

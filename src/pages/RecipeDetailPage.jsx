@@ -32,33 +32,40 @@ function RecipeDetailPage() {
 
   if (!recipe) return <p className="error-text">Recipe not found.</p>;
 
- return (
-  <div className="recipe-detail-page">
-    <h1 className="recipe-title">{recipe.title || "Recipe"}</h1>
+  return (
+    <div className="recipe-detail-page">
+      <h1 className="recipe-title">{recipe.title || "Recipe"}</h1>
 
-    <div className="recipe-image-container">
-      <img
-        src={recipe.image}
-        alt={recipe.title || "Recipe image"}
-        className="recipe-detail-image"
-      />
-    </div>
+      <div className="recipe-image-container">
+        <img
+          src={recipe.image}
+          alt={recipe.title || "Recipe image"}
+          className="recipe-detail-image"
+        />
+      </div>
 
-    <section className="recipe-section">
-      <h3 className="section-title">Ingredients</h3>
-      <pre className="recipe-text">{recipe.ingredients}</pre>
-    </section>
-
-    <section className="recipe-section">
-      <h3 className="section-title">Instructions</h3>
-      <pre className="recipe-text">{recipe.instructions}</pre>
-    </section>
-
-    <Link to="/" className="back-link">
-      ← Back to all recipes
-    </Link>
+      <section className="recipe-section">
+  <h3 className="section-title">Details</h3>
+  <div className="recipe-details">
+    <p><strong>Country of Origin:</strong> {recipe.country || "Unknown"}</p>
+    <p><strong>Meal Type:</strong> {recipe.mealType || "Various"}</p>
   </div>
-);
+</section>
+      <section className="recipe-section">
+        <h3 className="section-title">Ingredients</h3>
+        <pre className="recipe-text">{recipe.ingredients}</pre>
+      </section>
+
+      <section className="recipe-section">
+        <h3 className="section-title">Instructions</h3>
+        <pre className="recipe-text">{recipe.instructions}</pre>
+      </section>
+
+      <Link to="/" className="back-link">
+        ← Back to all recipes
+      </Link>
+    </div>
+  );
 }
 
 export default RecipeDetailPage;

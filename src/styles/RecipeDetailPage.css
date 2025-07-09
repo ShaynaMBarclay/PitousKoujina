@@ -65,3 +65,25 @@
   font-size: 1.2rem;
   color: #f702a9e6;
 }
+
+.recipe-details {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  color: #0077ffa6;
+  font-weight: 600;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+}
+
+.recipe-details p {
+  margin: 0;
+  padding: 0.2rem 0.5rem;
+  border: 1.5px solid #0077ffa6;
+  border-radius: 8px;
+  background-color: #d3e0fbb6;
+  min-width: 120px;
+}
+

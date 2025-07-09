@@ -12,7 +12,7 @@ function ReviewDetailPage() {
       const docRef = doc(db, "reviews", id);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        setReview({ id: docSnap.id, ...docSnap.data() });
+        setReview(docSnap.data());
       } else {
         setReview(null);
       }
@@ -21,14 +21,20 @@ function ReviewDetailPage() {
   }, [id]);
 
   if (!review) {
-    return <div>Loading review...</div>;
+    return <div className="loading-text">Loading review...</div>;
   }
 
   return (
     <div className="review-detail-page">
       <h1 className="review-title">{review.restaurant}</h1>
-      <p className="review-country">Country: {review.country}</p>
+
+      <div className="review-details">
+        <p>Dish eaten in: {review.dishCountry || "Unknown"}</p>
+        <p>Dish originates from: {review.originCountry || "Unknown"}</p>
+      </div>
+
       <div className="review-rating">{'⭐'.repeat(review.rating)}</div>
+
       {review.image && (
         <img
           src={review.image}
@@ -36,6 +42,7 @@ function ReviewDetailPage() {
           className="review-detail-image"
         />
       )}
+
       <p className="review-text">{review.review}</p>
 
       <Link to="/reviews" className="back-link">← Back to all reviews</Link>
