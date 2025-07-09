@@ -12,7 +12,7 @@ function ReviewDetailPage() {
       const docRef = doc(db, "reviews", id);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        setReview(docSnap.data());
+        setReview({ id: docSnap.id, ...docSnap.data() });
       } else {
         setReview(null);
       }

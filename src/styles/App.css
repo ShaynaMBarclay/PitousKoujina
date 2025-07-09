@@ -6,6 +6,7 @@
 @import "./RecipeDetailPage.css";
 @import "./Reviews.css";
 @import "./ReviewDetailPage.css";
+@import "./Search.css";
 
 * {
   margin: 0;
