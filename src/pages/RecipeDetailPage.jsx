@@ -45,12 +45,13 @@ function RecipeDetailPage() {
       </div>
 
       <section className="recipe-section">
-  <h3 className="section-title">Details</h3>
-  <div className="recipe-details">
-    <p><strong>Country of Origin:</strong> {recipe.country || "Unknown"}</p>
-    <p><strong>Meal Type:</strong> {recipe.mealType || "Various"}</p>
-  </div>
-</section>
+        <h3 className="section-title">Details</h3>
+        <div className="recipe-details">
+          <p><strong>Country of Origin:</strong> {recipe.country || "Unknown"}</p>
+          <p><strong>Meal Type:</strong> {recipe.mealType || "Various"}</p>
+        </div>
+      </section>
+
       <section className="recipe-section">
         <h3 className="section-title">Ingredients</h3>
         <pre className="recipe-text">{recipe.ingredients}</pre>
@@ -60,6 +61,17 @@ function RecipeDetailPage() {
         <h3 className="section-title">Instructions</h3>
         <pre className="recipe-text">{recipe.instructions}</pre>
       </section>
+
+      {recipe.blogPost && (
+        <section className="recipe-section">
+          <h3 className="section-title blog-post-title">Blog Post</h3>
+          <article className="blog-post-text">
+            {recipe.blogPost.split('\n').map((line, i) => (
+              <p key={i}>{line}</p>
+            ))}
+          </article>
+        </section>
+      )}
 
       <Link to="/" className="back-link">
         ← Back to all recipes

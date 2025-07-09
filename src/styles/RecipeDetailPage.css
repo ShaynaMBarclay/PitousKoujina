@@ -110,3 +110,30 @@
   background-color: #0077ffa6;
   color: white;
 }
+
+.blog-post-text {
+  background-color: #fbe3f9cc; 
+  padding: 1.25rem 1.5rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #5a005a; 
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 2px 8px rgba(247, 2, 169, 0.3); 
+  white-space: normal;
+  margin-top: 0.75rem;
+  user-select: text;
+}
+
+.blog-post-text p {
+  margin-bottom: 1rem;
+}
+
+
+.recipe-section .section-title.blog-post-title {
+  color: #f702a9e6;
+  font-weight: 700;
+  font-size: 1.4rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}

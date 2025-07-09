@@ -10,6 +10,7 @@ function RecipeForm({ onAddRecipe, editingRecipe }) {
   const [imageUrl, setImageUrl] = useState('');
   const [country, setCountry] = useState('');
   const [mealType, setMealType] = useState('');
+  const [blogPost, setBlogPost] = useState('');
 
   useEffect(() => {
     if (editingRecipe) {
@@ -19,6 +20,7 @@ function RecipeForm({ onAddRecipe, editingRecipe }) {
       setImageUrl(editingRecipe.image || '');
       setCountry(editingRecipe.country || '');
       setMealType(editingRecipe.mealType || '');
+      setBlogPost(editingRecipe.blogPost || '');
       setImage(null);
     } else {
       setTitle("");
@@ -28,6 +30,7 @@ function RecipeForm({ onAddRecipe, editingRecipe }) {
       setImageUrl('');
       setCountry('');
       setMealType('');
+      setBlogPost('');
     }
   }, [editingRecipe]);
 
@@ -58,6 +61,7 @@ function RecipeForm({ onAddRecipe, editingRecipe }) {
         image: finalImageUrl,
         country,
         mealType,
+        blogPost,
         ...(editingRecipe?.id && { id: editingRecipe.id }),
       };
 
@@ -70,6 +74,7 @@ function RecipeForm({ onAddRecipe, editingRecipe }) {
       setImageUrl('');
       setCountry('');
       setMealType('');
+      setBlogPost('');
     } catch (error) {
       console.error("Upload failed:", error);
     }
@@ -130,6 +135,17 @@ function RecipeForm({ onAddRecipe, editingRecipe }) {
         </select>
       </label>
 
+      {/* ✅ New Blog Post Field */}
+      <label>
+        Blog Post:
+        <textarea
+          value={blogPost}
+          onChange={(e) => setBlogPost(e.target.value)}
+          placeholder="Write a blog-style note, story, or description..."
+          rows={6}
+        />
+      </label>
+
       <label className="upload-label">
         Upload Image:
         <input
@@ -161,7 +177,9 @@ function RecipeForm({ onAddRecipe, editingRecipe }) {
         </div>
       )}
 
-      <button type="submit">{editingRecipe ? "Update Recipe" : "Add Recipe"}</button>
+      <button type="submit">
+        {editingRecipe ? "Update Recipe" : "Add Recipe"}
+      </button>
     </form>
   );
 }

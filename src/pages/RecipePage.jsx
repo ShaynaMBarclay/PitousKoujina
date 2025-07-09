@@ -121,7 +121,7 @@ function RecipePage({ isAdmin }) {
           <div key={recipe.id} className="recipe-card">
             <img
               src={recipe.image}
-              alt="Recipe"
+              alt={recipe.title || "Recipe"}
               className="recipe-image"
               onClick={() => navigate(`/recipe/${recipe.id}`)}
             />
