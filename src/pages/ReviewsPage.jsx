@@ -6,8 +6,9 @@ import {
   onSnapshot,
   deleteDoc,
   doc,
-  updateDoc,
+  updateDoc 
 } from "firebase/firestore";
+import { Link } from "react-router-dom";
 import ReviewForm from "../components/ReviewForm";
 
 function ReviewsPage({ isAdmin = false }) {
@@ -22,22 +23,21 @@ function ReviewsPage({ isAdmin = false }) {
     return () => unsubscribe();
   }, []);
 
-  const handleAddReview = async (newReview) => {
-    try {
-      if (editingReview) {
-        // Update existing review
-        const docRef = doc(db, "reviews", editingReview.id);
-        await updateDoc(docRef, newReview);
-        setEditingReview(null);
-      } else {
-        // Add new review
-        await addDoc(collection(db, "reviews"), newReview);
-      }
-      setShowForm(false);
-    } catch (err) {
-      console.error("Error adding/updating review:", err);
+ const handleAddReview = async (newReview) => {
+  try {
+    if (newReview.id) {
+      const docRef = doc(db, "reviews", newReview.id);
+      const { id, ...rest } = newReview;
+      await updateDoc(docRef, rest);
+      setEditingReview(null); 
+    } else {
+      await addDoc(collection(db, "reviews"), newReview);
     }
-  };
+    setShowForm(false); 
+  } catch (err) {
+    console.error("Error adding/updating review:", err);
+  }
+};
 
   const handleDelete = async (id) => {
     try {
@@ -47,19 +47,16 @@ function ReviewsPage({ isAdmin = false }) {
     }
   };
 
-  const toggleForm = () => {
-    setShowForm((prev) => !prev);
-    if (showForm) setEditingReview(null); 
-  };
-
-  const handleEditClick = (review) => {
+  const handleEditReview = (review) => {
     setEditingReview(review);
     setShowForm(true);
   };
 
-  const handleCancelEdit = () => {
-    setEditingReview(null);
-    setShowForm(false);
+  const toggleForm = () => {
+    if (showForm) {
+      setEditingReview(null);
+    }
+    setShowForm((prev) => !prev);
   };
 
   return (
@@ -68,46 +65,47 @@ function ReviewsPage({ isAdmin = false }) {
       <p className="reviews-subheading">Where we've eaten around the world ✈️</p>
 
       {isAdmin && (
-        <>
-          <button className="toggle-form-button" onClick={toggleForm}>
-            {showForm ? "Close Form" : (editingReview ? "Edit Review" : "+ Add Review")}
-          </button>
+  <>
+    <button className="toggle-form-button" onClick={toggleForm}>
+      {showForm ? "Close Form" : editingReview ? "Cancel Edit" : "+ Add Review"}
+    </button>
 
-          {showForm && (
-            <ReviewForm
-              onAddReview={handleAddReview}
-              editingReview={editingReview}
-              onCancel={handleCancelEdit}
-            />
-          )}
-        </>
-      )}
+    {showForm && (
+      <ReviewForm
+        onAddReview={handleAddReview}
+        editingReview={editingReview}
+        setEditingReview={setEditingReview}
+      />
+    )}
+  </>
+)}
 
       <div className="review-gallery">
         {reviews.map((r) => (
           <div key={r.id} className="review-card">
-            <h3 className="review-title">{r.restaurant}</h3>
-            <p className="review-country">Country: {r.country}</p>
-            <div className="review-rating">{'⭐'.repeat(r.rating)}</div>
-
-            {r.image && (
-              <img
-                src={r.image}
-                alt={`Image of ${r.restaurant}`}
-                className="review-image"
-              />
-            )}
-
-            <p className="review-text">{r.review}</p>
+            <Link to={`/reviews/${r.id}`} className="review-link">
+              {r.image && (
+                <img
+                  src={r.image}
+                  alt={`Image of ${r.restaurant}`}
+                  className="review-image"
+                />
+              )}
+              <h3 className="review-title">{r.restaurant}</h3>
+              <div className="review-rating">{'⭐'.repeat(r.rating)}</div>
+            </Link>
 
             {isAdmin && (
-              <div>
-                <button
-                  className="edit-button"
-                  onClick={() => handleEditClick(r)}
-                >
-                  Edit
-                </button>
+              <div className="review-buttons">
+               <button
+               className="edit-button"
+               onClick={() => {
+               setEditingReview(r);
+               setShowForm(true);
+               }}
+               >
+                Edit
+              </button>
                 <button
                   className="delete-button"
                   onClick={() => handleDelete(r.id)}

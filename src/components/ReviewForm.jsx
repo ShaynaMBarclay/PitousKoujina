@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../Firebase";
 
-function ReviewForm({ onAddReview, editingReview, onCancel }) {
+function ReviewForm({ onAddReview, editingReview, setEditingReview, onCancel }) {
   const [restaurant, setRestaurant] = useState("");
   const [country, setCountry] = useState("");
   const [rating, setRating] = useState(0);

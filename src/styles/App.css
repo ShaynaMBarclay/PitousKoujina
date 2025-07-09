@@ -5,6 +5,7 @@
 @import "./Admin.css";
 @import "./RecipeDetailPage.css";
 @import "./Reviews.css";
+@import "./ReviewDetailPage.css";
 
 * {
   margin: 0;
