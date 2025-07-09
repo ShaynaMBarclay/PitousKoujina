@@ -1,26 +1,22 @@
 import { useState } from "react";
 import ReviewsPage from "../pages/ReviewsPage";
-
-const ADMIN_PASSCODE = import.meta.env.VITE_ADMIN_PASSCODE;
+import useAdminAuth from "../components/useAdminAuth";
 
 function AdminReviewWrapper() {
   const [passcode, setPasscode] = useState("");
-  const [authorized, setAuthorized] = useState(false);
+  const { authorized, login, logout } = useAdminAuth();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (passcode === ADMIN_PASSCODE) {
-      setAuthorized(true);
-    } else {
-      alert("Incorrect passcode");
-    }
+    const success = login(passcode);
+    if (!success) alert("Incorrect passcode");
   };
 
   if (!authorized) {
     return (
-      <form className="admin-login-form" onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="admin-login-form">
         <label>
-          Enter Admin Passcode:
+          Enter Admin Passcode:{" "}
           <input
             type="password"
             value={passcode}
@@ -32,7 +28,12 @@ function AdminReviewWrapper() {
     );
   }
 
-  return <ReviewsPage isAdmin={true} />;
+  return (
+    <div>
+      <button onClick={logout} className="logout-button">Logout</button>
+      <ReviewsPage isAdmin={true} />
+    </div>
+  );
 }
 
 export default AdminReviewWrapper;

@@ -1,19 +1,15 @@
 import { useState } from "react";
-import RecipePage from "../pages/RecipePage"; 
-
-const ADMIN_PASSCODE = import.meta.env.VITE_ADMIN_PASSCODE
+import RecipePage from "../pages/RecipePage";
+import useAdminAuth from "../components/useAdminAuth";
 
 function AdminWrapper() {
   const [passcode, setPasscode] = useState("");
-  const [authorized, setAuthorized] = useState(false);
+  const { authorized, login, logout } = useAdminAuth();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (passcode === ADMIN_PASSCODE) {
-      setAuthorized(true);
-    } else {
-      alert("Incorrect passcode");
-    }
+    const success = login(passcode);
+    if (!success) alert("Incorrect passcode");
   };
 
   if (!authorized) {
@@ -32,7 +28,12 @@ function AdminWrapper() {
     );
   }
 
-  return <RecipePage isAdmin={true} />;
+  return (
+    <div>
+      <button onClick={logout} className="logout-button">Logout</button>
+      <RecipePage isAdmin={true} />
+    </div>
+  );
 }
 
 export default AdminWrapper;
