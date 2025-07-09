@@ -4,6 +4,7 @@
 @import "./RecipeForm.css";
 @import "./Admin.css";
 @import "./RecipeDetailPage.css";
+@import "./Reviews.css";
 
 * {
   margin: 0;

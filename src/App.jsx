@@ -4,6 +4,7 @@ import RecipePage from './pages/RecipePage';
 import RecipeDetailPage from './pages/RecipeDetailPage';
 import Navbar from './components/Navbar';
 import AdminWrapper from "./components/AdminWrapper";
+import AdminReviewWrapper from './components/AdminReviewWrapper';
 
 import "./styles/app.css";
 
@@ -13,7 +14,8 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<RecipePage isAdmin={false} />} />
-        <Route path="/reviews" element={<ReviewsPage />} />
+        <Route path="/reviews" element={<ReviewsPage isAdmin={false} />} />
+        <Route path="/reviews/admin" element={<AdminReviewWrapper />} />
         <Route path="/admin" element={<AdminWrapper />} />
         <Route path="/recipe/:id" element={<RecipeDetailPage />} />
       </Routes>
