@@ -137,3 +137,26 @@
   text-align: center;
   margin-bottom: 1rem;
 }
+
+.recipe-nav-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.recipe-nav-buttons button {
+  background-color: #0077ffa6;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.recipe-nav-buttons button:hover {
+  background-color: #f702a9e6;
+}
