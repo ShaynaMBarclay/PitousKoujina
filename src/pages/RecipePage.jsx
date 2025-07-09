@@ -4,44 +4,57 @@ import { collection, addDoc, onSnapshot, doc, deleteDoc, updateDoc } from "fireb
 import { db } from "../Firebase";
 import RecipeForm from '../components/RecipeForm';
 
+const mealTypes = ["Breakfast", "Lunch", "Dinner", "Brunch", "Dessert", "Snack"];
+
 function RecipePage({ isAdmin }) {
   const [recipes, setRecipes] = useState([]);
+  const [filters, setFilters] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingRecipe, setEditingRecipe] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-  const unsubscribe = onSnapshot(collection(db, "recipes"), (snapshot) => {
-    setRecipes(snapshot.docs.map(doc => {
-      const data = doc.data();
-      const { id: _ignoredId, ...rest } = data;
-      return {
-        id: doc.id,  
-        ...rest
-      };
-    }));
-  });
-  return () => unsubscribe();
-}, []);
+    const unsubscribe = onSnapshot(collection(db, "recipes"), (snapshot) => {
+      setRecipes(snapshot.docs.map(doc => {
+        const data = doc.data();
+        const { id: _ignoredId, ...rest } = data;
+        return {
+          id: doc.id,
+          ...rest
+        };
+      }));
+    });
+    return () => unsubscribe();
+  }, []);
 
   const toggleForm = () => {
     setShowForm((prev) => !prev);
     setEditingRecipe(null); 
   };
 
+  const toggleFilter = (type) => {
+    setFilters((prev) =>
+      prev.includes(type) ? prev.filter((f) => f !== type) : [...prev, type]
+    );
+  };
+
+  // Filter recipes based on mealType filter
+  const filteredRecipes =
+    filters.length === 0
+      ? recipes
+      : recipes.filter((recipe) => filters.includes(recipe.mealType));
+
   const handleAddRecipe = async (newRecipe) => {
     try {
       if (!isAdmin) return;
 
       if (newRecipe.id) {
-        
         console.log("✏️ Updating recipe with ID:", newRecipe.id);
         const docRef = doc(db, "recipes", newRecipe.id);
         const { id, ...recipeWithoutId } = newRecipe; 
         await updateDoc(docRef, recipeWithoutId);
         setEditingRecipe(null);
       } else {
-        
         console.log("➕ Adding new recipe");
         const { id, ...recipeWithoutId } = newRecipe;
         await addDoc(collection(db, "recipes"), recipeWithoutId);
@@ -71,10 +84,24 @@ function RecipePage({ isAdmin }) {
     setShowForm(true);
   };
 
-    return (
+  return (
     <div className="recipes-page">
       <h1 className="recipes-heading">Pitou's Koujina</h1>
       <h2 className="recipes-smallheading">مرحبا بيك في كوجينتي</h2>
+
+      {/* Filters */}
+      <div className="filter-buttons">
+        {mealTypes.map((type) => (
+          <button
+            key={type}
+            onClick={() => toggleFilter(type)}
+            className={filters.includes(type) ? "filter-active" : ""}
+            type="button"
+          >
+            {type}
+          </button>
+        ))}
+      </div>
 
       {isAdmin && (
         <button className="toggle-form-button" onClick={toggleForm}>
@@ -90,16 +117,15 @@ function RecipePage({ isAdmin }) {
       )}
 
       <div className="recipe-gallery">
-        {recipes.map((recipe) => (
+        {filteredRecipes.map((recipe) => (
           <div key={recipe.id} className="recipe-card">
-              <img
+            <img
               src={recipe.image}
               alt="Recipe"
               className="recipe-image"
               onClick={() => navigate(`/recipe/${recipe.id}`)}
             />
 
-            
             {isAdmin && (
               <>
                 <button
@@ -124,4 +150,3 @@ function RecipePage({ isAdmin }) {
 }
 
 export default RecipePage;
-
