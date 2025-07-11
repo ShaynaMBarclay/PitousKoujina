@@ -6,7 +6,8 @@
   border-radius: 8px;
   background-color: #f9f9f9;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Caveat", cursive;
+  font-size: 1.3rem;
 }
 
 .admin-login-form label {
@@ -35,7 +36,7 @@
 .admin-login-form button {
   width: 100%;
   padding: 0.7rem;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   font-weight: 700;
   background-color: #0077ffa6;
   color: white;
@@ -43,6 +44,7 @@
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  font-family: "Caveat", cursive;
 }
 
 .admin-login-form button:hover {
@@ -63,4 +65,39 @@
 
 .logout-button:hover {
   background-color: #990269;
+}
+
+
+/* Tablet */
+@media (max-width: 768px) {
+  .admin-login-form {
+    margin: 4rem auto;
+    padding: 1.5rem;
+    font-size: 1.2rem;
+  }
+
+  .admin-login-form button {
+    font-size: 1.2rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .admin-login-form {
+    margin: 3rem 1rem;
+    padding: 1.2rem;
+    font-size: 1.1rem;
+  }
+
+  .admin-login-form button {
+    font-size: 1.1rem;
+    padding: 0.6rem;
+  }
+
+  .logout-button {
+    float: none;
+    display: block;
+    margin: 1rem auto 0;
+    text-align: center;
+  }
 }

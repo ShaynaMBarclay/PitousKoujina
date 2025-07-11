@@ -135,7 +135,6 @@ function RecipeForm({ onAddRecipe, editingRecipe }) {
         </select>
       </label>
 
-      {/* ✅ New Blog Post Field */}
       <label>
         Blog Post:
         <textarea

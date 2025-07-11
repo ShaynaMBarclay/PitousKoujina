@@ -2,19 +2,75 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  background-color: #f9fbff;
-  border: 2px solid #0077ffa6;
+  background: linear-gradient(145deg, #d4ffec, #ffffff);
+  border: 2px solid #2e7a6b;
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 520px;
+  margin: 30px auto;
+  font-family: "Caveat", cursive;
+  font-size: 1.2rem;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.recipe-form:hover {
+  transform: scale(1.01);
+}
+
+.recipe-form input[type="text"],
+.recipe-country-input,
+.recipe-mealtype-select,
+.recipe-form textarea {
+  width: 100%;
+  padding: 0.6rem;
+  margin-top: 0.25rem;
   border-radius: 8px;
-  padding: 1.5rem;
-  max-width: 500px;
-  margin: 20px auto;
+  border: 1.5px solid #2e7a6b;
+  background-color: #fff;
+  font-size: 1rem;
+  font-family: inherit;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.recipe-form input:focus,
+.recipe-form textarea:focus,
+.recipe-mealtype-select:focus {
+  outline: none;
+  border-color: #f702a9;
+  box-shadow: 0 0 5px rgba(247, 2, 169, 0.4);
+}
+
+.recipe-form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.recipe-form button {
+  background-color: #f702a9e6;
+  color: white;
+  padding: 0.7rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  font-family: "Caveat", cursive;
+  font-size: 1.4rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.recipe-form button:hover {
+  background-color: #990269;
+  transform: scale(1.03);
 }
 
 .recipe-form label {
   display: flex;
   flex-direction: column;
-  font-weight: 500;
-  color: #0077ffa6;
+  font-weight: 600;
+  color: #2e7a6b;
+  font-size: 1.3rem;
 }
 
 .recipe-form textarea {
@@ -22,7 +78,7 @@
   min-height: 80px;
   padding: 0.5rem;
   border-radius: 4px;
-  border: 1.5px solid #0077ffa6;
+  border: 1.5px solid #2e7a6bfd;
   background-color: white;
 }
 
@@ -39,6 +95,8 @@
   font-weight: bold;
   cursor: pointer;
   transition: 0.2s ease;
+  font-family: "Caveat", cursive;
+  font-size: 1.3rem;
 }
 
 .recipe-form button:hover {
@@ -68,17 +126,22 @@
 
 .recipes-heading {
   text-align: center;
-  color: #0077ffa6;
-  font-size: 3.5rem;
+  color: #2e7a6b;
+  font-size: 5rem;
   font-family: "My Soul", cursive;
   letter-spacing: 0.1em;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
+
 
 .recipes-smallheading {
   text-align: center;
   color: #f702a9e6;
   margin-bottom: 1.3rem;
-  font-family: "Noto Sans Arabic", sans-serif;
+ font-family: "Caveat", cursive;
+ font-size: 1.6rem;
 }
 
 .recipe-gallery {
@@ -93,7 +156,7 @@
   cursor: pointer;
   border-radius: 8px;
   transition: transform 0.2s ease;
-  border: 3px solid #0077ffbf; 
+  border: 3px solid #2e7a6bfd; 
 }
 
 .recipe-image:hover {
@@ -141,18 +204,19 @@
 .toggle-form-button {
   display: block;
   margin: 0 auto 1rem;
-  background-color: #0077ffa6;
+  background-color: #2e7a6bfd;
   color: white;
   padding: 8px 14px;
   border: none;
   border-radius: 6px;
-  font-size: 0.95rem;
+  font-size: 1.5rem;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  font-family: "Caveat", cursive;
 }
 
 .toggle-form-button:hover {
-  background-color: #005fa3;
+  background-color: #1b483ffd;
 }
 
 .recipe-title-input,
@@ -185,4 +249,62 @@
   border-radius: 8px;
   display: block;
   margin-top: 0.5rem;
+}
+
+/* Tablet (768px and below) */
+@media (max-width: 768px) {
+  .recipe-form {
+    padding: 1.5rem;
+    margin: 20px 1rem;
+    font-size: 1.1rem;
+  }
+
+  .recipe-form label {
+    font-size: 1.2rem;
+  }
+
+  .recipe-form button {
+    font-size: 1.2rem;
+    padding: 0.6rem 1rem;
+  }
+
+  .recipes-heading {
+    font-size: 3.5rem;
+  }
+
+  .recipes-smallheading {
+    font-size: 1.4rem;
+  }
+}
+
+/* Mobile (480px and below) */
+@media (max-width: 480px) {
+  .recipe-form {
+    padding: 1rem;
+    margin: 20px 1rem;
+    font-size: 1rem;
+  }
+
+  .recipe-form label {
+    font-size: 1.1rem;
+  }
+
+  .recipe-form button {
+    font-size: 1.1rem;
+    padding: 0.5rem 0.8rem;
+  }
+
+  .recipes-heading {
+    font-size: 2.5rem;
+    letter-spacing: 0.05em;
+  }
+
+  .recipes-smallheading {
+    font-size: 1.2rem;
+  }
+
+  .recipe-image {
+    width: 100%;
+    max-width: 90vw;
+  }
 }

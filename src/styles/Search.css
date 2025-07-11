@@ -2,19 +2,21 @@
   display: flex;
   align-items: center;
   margin-left: auto;
+  font-family: "Caveat", cursive;
 }
 
 .search-input {
   padding: 6px 10px;
-  border: 1.5px solid #0077ffa6;
+  border: 1.5px solid #2e7a6bfd;
   border-radius: 4px;
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   outline: none;
+  font-family: "Caveat", cursive;
 }
 
 .search-button {
   padding: 6px 10px;
-  background-color: #0077ffa6;
+  background-color: #2e7a6bfd;
   color: white;
   border: none;
   margin-left: 6px;
@@ -26,7 +28,7 @@
 .section-title {
   font-size: 2rem;
   font-weight: 700;
-  color: #f702a9e6; /* matches your existing accent color */
+  color: #f702a9e6; 
   margin-top: 2.5rem;
   margin-bottom: 1rem;
   text-align: center;

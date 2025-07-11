@@ -86,8 +86,8 @@ function RecipePage({ isAdmin }) {
 
   return (
     <div className="recipes-page">
-      <h1 className="recipes-heading">Pitou's Koujina</h1>
-      <h2 className="recipes-smallheading">مرحبا بيك في كوجينتي</h2>
+      <h1 className="recipes-heading">La Cucina di Shay</h1>
+      <h2 className="recipes-smallheading">Tra tradizione e fantasia, sapori fatti con amore.</h2>
 
       {/* Filters */}
       <div className="filter-buttons">

@@ -3,21 +3,59 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
   width: 100%;
   gap: 2.6rem;
-  padding: 8px;
-  background-color: #d3e0fbb6; 
-  border-bottom: 2.3px solid #0077ffa6; 
+  padding: 7px 20px;
+  background: #d4ffecb6;
+  border-bottom: 2.3px solid #2e7a6b;
   font-weight: 500;
-  
+  font-family: "Caveat", cursive;
+  box-shadow: 0 4px 8px rgba(46, 122, 107, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(8px);
 }
 
 .nav-icon {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   color: #f702a9e6;
-  transition: color 0.2s ease, transform 0.2s ease;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.nav-icon::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
+  background-color: #f702a9e6;
+  transition: width 0.3s ease;
 }
 
 .nav-icon:hover {
   color: #990269;
+  transform: scale(1.05);
 }
+
+.nav-icon:hover::after {
+  width: 100%;
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .navbar {
+    gap: 1.5rem;
+    padding: 10px 16px;
+  }
+
+  .nav-icon {
+    font-size: 1.2rem;
+  }
+}
+
+

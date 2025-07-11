@@ -16,7 +16,6 @@ function ReviewsPage({ isAdmin = false }) {
   const [showForm, setShowForm] = useState(false);
   const [editingReview, setEditingReview] = useState(null);
 
-  // New state for filter
   const [selectedCountry, setSelectedCountry] = useState("All");
   const [filteredReviews, setFilteredReviews] = useState([]);
 
@@ -24,13 +23,11 @@ function ReviewsPage({ isAdmin = false }) {
     const unsubscribe = onSnapshot(collection(db, "reviews"), (snapshot) => {
       const allReviews = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       setReviews(allReviews);
-      // Initialize filteredReviews with all reviews
       setFilteredReviews(allReviews);
     });
     return () => unsubscribe();
   }, []);
 
-  // Generate dynamic list of countries from dishCountry and originCountry
   const countries = [
     "All",
     ...Array.from(
@@ -42,7 +39,6 @@ function ReviewsPage({ isAdmin = false }) {
     ),
   ];
 
-  // Update filteredReviews when selectedCountry changes
   useEffect(() => {
     if (selectedCountry === "All") {
       setFilteredReviews(reviews);
@@ -96,14 +92,14 @@ function ReviewsPage({ isAdmin = false }) {
 
       {/* FILTER DROPDOWN */}
       <div style={{ marginBottom: "1rem", textAlign: "center" }}>
-        <label htmlFor="countryFilter" style={{ marginRight: "0.5rem", fontWeight: "600", color: "#0077ffa6" }}>
+        <label htmlFor="countryFilter" style={{ marginRight: "0.5rem", fontWeight: "600", color: "#2e7a6bfd" }}>
           Filter by Country:
         </label>
         <select
           id="countryFilter"
           value={selectedCountry}
           onChange={(e) => setSelectedCountry(e.target.value)}
-          style={{ padding: "0.3rem 0.5rem", borderRadius: "5px", border: "1.5px solid #0077ffa6" }}
+          style={{ padding: "0.3rem 0.5rem", borderRadius: "5px", border: "1.5px solid #2e7a6bfd" }}
         >
           {countries.map((country) => (
             <option key={country} value={country}>
@@ -138,7 +134,7 @@ function ReviewsPage({ isAdmin = false }) {
               <p style={{ fontSize: "0.9rem", fontWeight: "600", color: "#f702a9e6", margin: "0.25rem 0" }}>
                 Dish eaten in: {r.dishCountry || "Unknown"}
               </p>
-              <p style={{ fontSize: "0.9rem", fontWeight: "600", color: "#0077ffa6", margin: "0.25rem 0" }}>
+              <p style={{ fontSize: "0.9rem", fontWeight: "600", color: "#2e7a6bfd", margin: "0.25rem 0" }}>
                 Dish originates from: {r.originCountry || "Unknown"}
               </p>
               <div className="review-rating">{'⭐'.repeat(r.rating)}</div>

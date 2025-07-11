@@ -2,35 +2,40 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  background-color: #f9fbff;
-  border: 2px solid #0077ffa6;
-  border-radius: 8px;
-  padding: 1.5rem;
+  background-color: #d4ffecb6;
+  border: 2px solid #2e7a6bfd;
+  border-radius: 12px;
+  padding: 2rem;
   max-width: 500px;
-  margin: 20px auto;
+  margin: 2rem auto;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+  font-family: "Caveat", cursive;
 }
 
 .review-form label {
   display: flex;
   flex-direction: column;
-  font-weight: 500;
-  color: #0077ffa6;
+  font-weight: 600;
+  color: #2e7a6bfd;
+  font-size: 1.25rem;
 }
+
 
 .review-form input,
 .review-form textarea,
 .review-form select {
-  padding: 0.5rem;
-  border-radius: 4px;
-  border: 1.5px solid #0077ffa6;
-  background-color: white;
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: 1.5px solid #2e7a6bfd;
+  background-color: #fff;
   font-size: 1rem;
   font-family: inherit;
-  resize: vertical;
+  transition: border-color 0.2s ease;
 }
 
 .review-form textarea {
-  min-height: 80px;
+  min-height: 100px;
+  resize: vertical;
 }
 
 .review-form button {
@@ -42,24 +47,27 @@
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  font-family: "Caveat", cursive;
+  font-size: 1.2rem;
+  transition: background-color 0.25s ease, transform 0.2s ease;
 }
 
 .review-form button:hover {
   background-color: #990269;
+  transform: scale(1.02);
 }
 
 /* Reviews Page */
 .reviews-page {
   padding: 2rem 1rem;
-  background-color: #ffffffb6;
+  background-color: rgba(249, 249, 235, 0.822);
 }
 
 .reviews-heading {
   text-align: center;
-  color: #0077ffa6;
-  font-size: 3rem;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  color: #2e7a6bfd;
+  font-size: 3.2rem;
+  margin: 2rem 0 1.5rem;
   font-family: "My Soul", cursive;
   letter-spacing: 0.05em;
 }
@@ -67,8 +75,9 @@
 .reviews-subheading {
   text-align: center;
   color: #f702a9e6;
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   margin-bottom: 2rem;
+  font-family: "Caveat", cursive;
 }
 
 .review-gallery {
@@ -79,49 +88,60 @@
 }
 
 .review-card {
-  background-color: #ffffff;
-  border: 2px solid #0077ffa6;
-  border-radius: 10px;
+  background-color: #d4ffec4b;
+  border: 2px solid #2e7a6bfd;
+  border-radius: 12px;
   padding: 1.2rem;
-  width: auto; 
-  max-width: 300px; 
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 300px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s ease;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-
 .review-card:hover {
-  transform: scale(1.02);
+  transform: scale(1.03);
 }
 
 .review-title {
   font-size: 1.4rem;
   font-weight: bold;
-  color: #0077ffa6;
+  color: #2e7a6bfd;
   margin-bottom: 0.5rem;
+  font-family: "Caveat", cursive;
+}
+
+
+.review-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2e7a6bfd;
+  margin-bottom: 0.5rem;
+  text-align: center;
 }
 
 .review-country {
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 500;
   color: #f702a9e6;
-  margin-bottom: 1rem;
+  margin-bottom: 0.8rem;
 }
 
 .review-rating {
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   color: #ffc107; 
   margin-bottom: 0.5rem;
 }
 
 .review-text {
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: #333;
   white-space: pre-wrap;
+  text-align: center;
 }
+
 
 .review-image {
   width: 100%;
@@ -129,7 +149,7 @@
   object-fit: cover;
   margin-bottom: 1rem;
   border-radius: 8px;
-  border: 2px solid #0077ffa6;
+  border: 2px solid #2e7a6bfd;
 }
 
 .edit-button {
@@ -171,6 +191,7 @@
   margin: 1rem 0;
 }
 
+
 /* Container for the filter */
 .reviews-page > div[style] {
   margin-bottom: 1rem;
@@ -181,7 +202,7 @@
 .reviews-page label[for="countryFilter"] {
   margin-right: 0.5rem;
   font-weight: 600;
-  color: #0077ffa6;
+  color: #2e7a6bfd;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 1rem;
 }
@@ -189,10 +210,10 @@
 
 #countryFilter {
   padding: 0.3rem 0.5rem;
-  border-radius: 5px;
-  border: 1.5px solid #0077ffa6;
-  font-size: 1rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border-radius: 6px;
+  border: 1.5px solid #2e7a6bfd;
+  font-size: 1.2rem;
+  font-family: "Caveat", cursive;
   cursor: pointer;
   transition: border-color 0.3s ease;
 }
@@ -202,3 +223,5 @@
   border-color: #f702a9e6;
   outline: none;
 }
+
+
