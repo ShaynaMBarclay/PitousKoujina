@@ -5,6 +5,7 @@
   align-items: center;
   flex-wrap: wrap;
   width: 100%;
+  min-width: 0;
   gap: 2.6rem;
   padding-top: calc(7px + env(safe-area-inset-top));
   padding-right: 20px;
