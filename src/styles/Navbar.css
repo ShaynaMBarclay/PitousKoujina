@@ -6,7 +6,7 @@
   flex-wrap: wrap;
   width: 100vw;
   gap: 2.6rem;
-  padding: 7px 20px;
+  padding: calc(7px + env(safe-area-inset-top)) 20px 7px;
   background: #d4ffecb6;
   border-bottom: 2.3px solid #2e7a6b;
   font-weight: 500;
