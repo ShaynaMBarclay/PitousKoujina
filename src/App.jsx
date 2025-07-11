@@ -12,7 +12,9 @@ import "./styles/App.css";
 
 function App() {
   return (
+    
     <>
+    <div className="safe-area-top" />
       <Navbar />
       <Routes>
         <Route path="/" element={<RecipePage isAdmin={false} />} />
