@@ -8,7 +8,7 @@ import Navbar from './components/Navbar';
 import AdminWrapper from "./components/AdminWrapper";
 import AdminReviewWrapper from './components/AdminReviewWrapper';
 
-import "./styles/app.css";
+import "./styles/App.css";
 
 function App() {
   return (

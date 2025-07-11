@@ -54,7 +54,6 @@ function SearchResultsPage() {
     <div className="search-results-page">
       <h2 className="reviews-heading">Search Results for "{query}"</h2>
 
-      {/* Recipes Section */}
       {recipeResults.length > 0 && (
         <>
           <h3 className="section-title">Recipes</h3>
@@ -77,7 +76,6 @@ function SearchResultsPage() {
         </>
       )}
 
-      {/* Reviews Section */}
       {reviewResults.length > 0 && (
         <>
           <h3 className="section-title">Reviews</h3>

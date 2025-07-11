@@ -63,7 +63,6 @@ function ReviewForm({ onAddReview, editingReview }) {
 
       onAddReview(newReview);
 
-      // Clear form
       setRestaurant("");
       setReview("");
       setRating(0);

@@ -90,7 +90,6 @@ function ReviewsPage({ isAdmin = false }) {
       <h1 className="reviews-heading">Restaurant Reviews</h1>
       <p className="reviews-subheading">Where we've eaten around the world ✈️</p>
 
-      {/* FILTER DROPDOWN */}
       <div style={{ marginBottom: "1rem", textAlign: "center" }}>
         <label htmlFor="countryFilter" style={{ marginRight: "0.5rem", fontWeight: "600", color: "#2e7a6bfd" }}>
           Filter by Country:
