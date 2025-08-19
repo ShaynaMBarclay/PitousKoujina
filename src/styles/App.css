@@ -29,7 +29,8 @@ box-sizing: border-box;
 
 body {
  min-height: 100vh;
- height: 100vh; 
+ height: auto; 
+ background: #85a798b6;
 }
 
 @supports (padding: max(0px)) {
