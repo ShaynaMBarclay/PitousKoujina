@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../Firebase";
+import imageCompression from "browser-image-compression"; // <-- import
 
 function RecipeForm({ onAddRecipe, editingRecipe }) {
   const [title, setTitle] = useState("");
@@ -34,6 +35,17 @@ function RecipeForm({ onAddRecipe, editingRecipe }) {
     }
   }, [editingRecipe]);
 
+  // Compress images before upload
+  const handleImageUpload = async (file) => {
+    const options = {
+      maxSizeMB: 0.5,         // max 0.5MB
+      maxWidthOrHeight: 1024, // resize to max 1024px
+      useWebWorker: true,
+    };
+    const compressedFile = await imageCompression(file, options);
+    return compressedFile;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -41,8 +53,9 @@ function RecipeForm({ onAddRecipe, editingRecipe }) {
 
     try {
       if (image) {
-        const imageRef = ref(storage, `recipes/${image.name}-${Date.now()}`);
-        await uploadBytes(imageRef, image);
+        const compressedImage = await handleImageUpload(image); // <-- compress here
+        const imageRef = ref(storage, `recipes/${compressedImage.name}-${Date.now()}`);
+        await uploadBytes(imageRef, compressedImage);
         finalImageUrl = await getDownloadURL(imageRef);
       }
 
@@ -162,9 +175,11 @@ function RecipeForm({ onAddRecipe, editingRecipe }) {
             src={URL.createObjectURL(image)}
             alt="Preview"
             style={{ maxWidth: '200px', marginTop: '10px' }}
+            loading="lazy"
           />
         </div>
       )}
+
       {!image && imageUrl && (
         <div>
           <p>Current image:</p>
@@ -172,6 +187,7 @@ function RecipeForm({ onAddRecipe, editingRecipe }) {
             src={imageUrl}
             alt="Current"
             style={{ maxWidth: '200px', marginTop: '10px' }}
+            loading="lazy"
           />
         </div>
       )}

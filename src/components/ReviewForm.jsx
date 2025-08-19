@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../Firebase";
+import imageCompression from "browser-image-compression"; 
 
 function ReviewForm({ onAddReview, editingReview }) {
   const [restaurant, setRestaurant] = useState("");
@@ -31,6 +32,17 @@ function ReviewForm({ onAddReview, editingReview }) {
     }
   }, [editingReview]);
 
+  // New function for compressing image
+  const handleImageUpload = async (file) => {
+    const options = {
+      maxSizeMB: 0.5,         // max size 0.5MB
+      maxWidthOrHeight: 1024, // resize if larger than 1024px
+      useWebWorker: true,
+    };
+    const compressedFile = await imageCompression(file, options);
+    return compressedFile;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -38,8 +50,9 @@ function ReviewForm({ onAddReview, editingReview }) {
 
     try {
       if (image) {
-        const imageRef = ref(storage, `reviews/${image.name}-${Date.now()}`);
-        await uploadBytes(imageRef, image);
+        const compressedImage = await handleImageUpload(image); // <-- compress here
+        const imageRef = ref(storage, `reviews/${compressedImage.name}-${Date.now()}`);
+        await uploadBytes(imageRef, compressedImage);
         finalImageUrl = await getDownloadURL(imageRef);
       }
 
@@ -147,6 +160,7 @@ function ReviewForm({ onAddReview, editingReview }) {
             src={URL.createObjectURL(image)}
             alt="Preview"
             style={{ maxWidth: "200px", marginTop: "10px" }}
+            loading="lazy"
           />
         </div>
       )}
@@ -158,6 +172,7 @@ function ReviewForm({ onAddReview, editingReview }) {
             src={imageUrl}
             alt="Current"
             style={{ maxWidth: "200px", marginTop: "10px" }}
+            loading="lazy"
           />
         </div>
       )}
