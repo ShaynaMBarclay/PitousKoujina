@@ -1,49 +1,58 @@
 import { useState, useEffect } from "react";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../Firebase";
-import imageCompression from "browser-image-compression"; // <-- import
+import imageCompression from "browser-image-compression"; 
 
 function RecipeForm({ onAddRecipe, editingRecipe }) {
   const [title, setTitle] = useState("");
-  const [ingredients, setIngredients] = useState('');
-  const [instructions, setInstructions] = useState('');
-  const [image, setImage] = useState(null);
-  const [imageUrl, setImageUrl] = useState('');
-  const [country, setCountry] = useState('');
-  const [mealType, setMealType] = useState('');
-  const [blogPost, setBlogPost] = useState('');
+  const [ingredients, setIngredients] = useState("");
+  const [instructions, setInstructions] = useState("");
+  const [image, setImage] = useState(null);       
+  const [imageUrl, setImageUrl] = useState("");    
+  const [country, setCountry] = useState("");
+  const [mealType, setMealType] = useState("");
+  const [blogPost, setBlogPost] = useState("");
 
   useEffect(() => {
     if (editingRecipe) {
       setTitle(editingRecipe.title || "");
-      setIngredients(editingRecipe.ingredients || '');
-      setInstructions(editingRecipe.instructions || '');
-      setImageUrl(editingRecipe.image || '');
-      setCountry(editingRecipe.country || '');
-      setMealType(editingRecipe.mealType || '');
-      setBlogPost(editingRecipe.blogPost || '');
+      setIngredients(editingRecipe.ingredients || "");
+      setInstructions(editingRecipe.instructions || "");
+      setImageUrl(editingRecipe.image || "");
+      setCountry(editingRecipe.country || "");
+      setMealType(editingRecipe.mealType || "");
+      setBlogPost(editingRecipe.blogPost || "");
       setImage(null);
     } else {
       setTitle("");
-      setIngredients('');
-      setInstructions('');
+      setIngredients("");
+      setInstructions("");
       setImage(null);
-      setImageUrl('');
-      setCountry('');
-      setMealType('');
-      setBlogPost('');
+      setImageUrl("");
+      setCountry("");
+      setMealType("");
+      setBlogPost("");
     }
   }, [editingRecipe]);
 
-  // Compress images before upload
-  const handleImageUpload = async (file) => {
-    const options = {
-      maxSizeMB: 0.5,         // max 0.5MB
-      maxWidthOrHeight: 1024, // resize to max 1024px
-      useWebWorker: true,
-    };
-    const compressedFile = await imageCompression(file, options);
-    return compressedFile;
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    try {
+      const options = {
+        maxSizeMB: 0.5,
+        maxWidthOrHeight: 1024,
+        useWebWorker: true,
+      };
+      const compressedFile = await imageCompression(file, options);
+
+      setImage(compressedFile); 
+      setImageUrl(URL.createObjectURL(compressedFile)); 
+    } catch (error) {
+      console.error("Image compression failed:", error);
+      alert("Failed to compress image. Please try again.");
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -53,9 +62,10 @@ function RecipeForm({ onAddRecipe, editingRecipe }) {
 
     try {
       if (image) {
-        const compressedImage = await handleImageUpload(image); // <-- compress here
-        const imageRef = ref(storage, `recipes/${compressedImage.name}-${Date.now()}`);
-        await uploadBytes(imageRef, compressedImage);
+        const fileName = image.name?.split(".")[0] || "recipe";
+        const imageRef = ref(storage, `recipes/${fileName}-${Date.now()}.jpg`);
+
+        await uploadBytes(imageRef, image);
         finalImageUrl = await getDownloadURL(imageRef);
       }
 
@@ -80,16 +90,18 @@ function RecipeForm({ onAddRecipe, editingRecipe }) {
 
       onAddRecipe(newRecipe);
 
+      
       setTitle("");
-      setIngredients('');
-      setInstructions('');
+      setIngredients("");
+      setInstructions("");
       setImage(null);
-      setImageUrl('');
-      setCountry('');
-      setMealType('');
-      setBlogPost('');
+      setImageUrl("");
+      setCountry("");
+      setMealType("");
+      setBlogPost("");
     } catch (error) {
       console.error("Upload failed:", error);
+      alert("Image upload failed. Please try again.");
     }
   };
 
@@ -163,30 +175,18 @@ function RecipeForm({ onAddRecipe, editingRecipe }) {
         <input
           type="file"
           accept="image/*"
-          onChange={(e) => setImage(e.target.files[0])}
+          onChange={handleFileChange}
           required={!editingRecipe || !imageUrl}
         />
       </label>
 
-      {image && (
+      {imageUrl && (
         <div>
-          <p>New image selected:</p>
-          <img
-            src={URL.createObjectURL(image)}
-            alt="Preview"
-            style={{ maxWidth: '200px', marginTop: '10px' }}
-            loading="lazy"
-          />
-        </div>
-      )}
-
-      {!image && imageUrl && (
-        <div>
-          <p>Current image:</p>
+          <p>{image ? "New image selected:" : "Current image:"}</p>
           <img
             src={imageUrl}
-            alt="Current"
-            style={{ maxWidth: '200px', marginTop: '10px' }}
+            alt="Preview"
+            style={{ maxWidth: "200px", marginTop: "10px" }}
             loading="lazy"
           />
         </div>

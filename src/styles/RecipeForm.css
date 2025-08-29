@@ -119,6 +119,7 @@
 
 /* Recipe Page */
 
+
 .recipes-page {
   padding: 2rem 1rem;
   
@@ -155,12 +156,17 @@
   width: 300px;
   cursor: pointer;
   border-radius: 8px;
-  transition: transform 0.2s ease;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out, transform 0.3s ease;
   border: 3px solid #2e7a6bfd; 
 }
 
+.recipe-image.fade-in {
+  opacity: 1;
+}
+
 .recipe-image:hover {
-  transform: scale(1.03);
+  transform: scale(1.05);
 }
 
 .recipe-card {

@@ -10,12 +10,12 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import ReviewForm from "../components/ReviewForm";
+import LazyImage from "../components/LazyImage";
 
 function ReviewsPage({ isAdmin = false }) {
   const [reviews, setReviews] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingReview, setEditingReview] = useState(null);
-
   const [selectedCountry, setSelectedCountry] = useState("All");
   const [filteredReviews, setFilteredReviews] = useState([]);
 
@@ -101,9 +101,7 @@ function ReviewsPage({ isAdmin = false }) {
           style={{ padding: "0.3rem 0.5rem", borderRadius: "5px", border: "1.5px solid #2e7a6bfd" }}
         >
           {countries.map((country) => (
-            <option key={country} value={country}>
-              {country}
-            </option>
+            <option key={country} value={country}>{country}</option>
           ))}
         </select>
       </div>
@@ -113,10 +111,7 @@ function ReviewsPage({ isAdmin = false }) {
           <button className="toggle-form-button" onClick={toggleForm}>
             {showForm ? "Close Form" : editingReview ? "Edit Review" : "+ Add Review"}
           </button>
-
-          {showForm && (
-            <ReviewForm onAddReview={handleAddReview} editingReview={editingReview} />
-          )}
+          {showForm && <ReviewForm onAddReview={handleAddReview} editingReview={editingReview} />}
         </>
       )}
 
@@ -136,9 +131,10 @@ function ReviewsPage({ isAdmin = false }) {
               <p style={{ fontSize: "0.9rem", fontWeight: "600", color: "#2e7a6bfd", margin: "0.25rem 0" }}>
                 Dish originates from: {r.originCountry || "Unknown"}
               </p>
-              <div className="review-rating">{'⭐'.repeat(r.rating)}</div>
+              <div className="review-rating">{"⭐".repeat(r.rating)}</div>
+
               {r.image && (
-                <img
+                <LazyImage
                   src={r.image}
                   alt={`Image of ${r.restaurant}`}
                   className="review-image"
@@ -147,24 +143,8 @@ function ReviewsPage({ isAdmin = false }) {
 
               {isAdmin && (
                 <div>
-                  <button
-                    className="edit-button"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleEdit(r);
-                    }}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="delete-button"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleDelete(r.id);
-                    }}
-                  >
-                    Delete
-                  </button>
+                  <button className="edit-button" onClick={(e) => { e.preventDefault(); handleEdit(r); }}>Edit</button>
+                  <button className="delete-button" onClick={(e) => { e.preventDefault(); handleDelete(r.id); }}>Delete</button>
                 </div>
               )}
             </div>

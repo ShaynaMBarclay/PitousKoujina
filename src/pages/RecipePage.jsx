@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { collection, addDoc, onSnapshot, doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { db } from "../Firebase";
 import RecipeForm from '../components/RecipeForm';
+import LazyImage from "../components/LazyImage";
 
 const mealTypes = ["Breakfast", "Lunch", "Dinner", "Brunch", "Dessert", "Snack"];
 
@@ -117,7 +118,8 @@ function RecipePage({ isAdmin }) {
       <div className="recipe-gallery">
         {filteredRecipes.map((recipe) => (
           <div key={recipe.id} className="recipe-card">
-            <img
+
+            <LazyImage
               src={recipe.image}
               alt={recipe.title || "Recipe"}
               className="recipe-image"
