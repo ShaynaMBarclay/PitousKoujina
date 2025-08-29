@@ -2,17 +2,20 @@ import { useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../Firebase";
+import LazyImage from "../components/LazyImage";
 
 function SearchResultsPage() {
   const [recipeResults, setRecipeResults] = useState([]);
   const [reviewResults, setReviewResults] = useState([]);
   const [loading, setLoading] = useState(true);
+
   const location = useLocation();
   const query = new URLSearchParams(location.search).get("query")?.toLowerCase() || "";
 
   useEffect(() => {
     async function fetchResults() {
       setLoading(true);
+
       const recipeSnap = await getDocs(collection(db, "recipes"));
       const reviewSnap = await getDocs(collection(db, "reviews"));
 
@@ -32,8 +35,8 @@ function SearchResultsPage() {
           item.restaurant?.toLowerCase().includes(query) ||
           item.review?.toLowerCase().includes(query) ||
           item.country?.toLowerCase().includes(query) ||        
-        item.dishCountry?.toLowerCase().includes(query) ||     
-        item.originCountry?.toLowerCase().includes(query) 
+          item.dishCountry?.toLowerCase().includes(query) ||     
+          item.originCountry?.toLowerCase().includes(query) 
         );
 
       setRecipeResults(recipes);
@@ -67,7 +70,11 @@ function SearchResultsPage() {
                 <div className="review-card">
                   <h3 className="review-title">{item.title}</h3>
                   {item.image && (
-                    <img src={item.image} alt={item.title} className="review-image" />
+                    <LazyImage
+                      src={item.image}
+                      alt={item.title}
+                      className="review-image"
+                    />
                   )}
                 </div>
               </Link>
@@ -89,7 +96,11 @@ function SearchResultsPage() {
                 <div className="review-card">
                   <h3 className="review-title">{item.restaurant}</h3>
                   {item.image && (
-                    <img src={item.image} alt={item.restaurant} className="review-image" />
+                    <LazyImage
+                      src={item.image}
+                      alt={item.restaurant}
+                      className="review-image"
+                    />
                   )}
                   <div className="review-rating">{'⭐'.repeat(item.rating)}</div>
                 </div>
