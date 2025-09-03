@@ -33,6 +33,26 @@ body {
  background: #85a798b6;
 }
 
+body::-webkit-scrollbar {
+  width: 12px;
+}
+
+body::-webkit-scrollbar-track {
+  background: #d4ffecb6;
+  border-radius: 10px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #2e7a6bfd;
+  border-radius: 10px;
+  border: 3px solid #d4ffecb6;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background-color: #f702a9e6;
+}
+
+
 @supports (padding: max(0px)) {
   body {
     padding-top: max(env(safe-area-inset-top), 0px);
