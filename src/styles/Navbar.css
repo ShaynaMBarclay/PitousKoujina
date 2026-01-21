@@ -23,13 +23,6 @@
   box-sizing: border-box;
 }
 
-.safe-area-top {
-  height: env(safe-area-inset-top);
-  background-color: #d4ffecb6; 
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
 
 .nav-icon {
   font-size: 1.4rem;
